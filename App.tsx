@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import InputForm from './components/InputForm';
 import LogoDisplay from './components/LogoDisplay';
 import { UserInput, AnalysisResult, GeneratedLogo } from './types';
 import { analyzeBrand, constructLogoPrompt, generateLogoFromPrompt } from './services/geminiService';
+
+// Fix TS2580: Cannot find name 'process' fallback
+declare const process: any;
 
 const App: React.FC = () => {
   const [step, setStep] = useState<'input' | 'analyzing' | 'generating' | 'complete'>('input');
@@ -20,10 +23,12 @@ const App: React.FC = () => {
   const ensureApiKey = async (): Promise<boolean> => {
     try {
       // 1. Check AI Studio Environment
-      if (typeof window !== 'undefined' && window.aistudio && window.aistudio.hasSelectedApiKey) {
-        const hasKey = await window.aistudio.hasSelectedApiKey();
+      // Use type casting to avoid conflicts with global window.aistudio declaration
+      const win = window as any;
+      if (typeof window !== 'undefined' && win.aistudio && win.aistudio.hasSelectedApiKey) {
+        const hasKey = await win.aistudio.hasSelectedApiKey();
         if (!hasKey) {
-            await window.aistudio.openSelectKey();
+            await win.aistudio.openSelectKey();
             // Race condition mitigation: assume success if dialog interaction completes
             return true; 
         }

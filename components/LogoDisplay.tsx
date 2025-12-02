@@ -1,6 +1,6 @@
 import React from 'react';
 import { AnalysisResult, GeneratedLogo } from '../types';
-import { ArrowDownTrayIcon, ArrowPathIcon, PlusIcon, SparklesIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon, ArrowPathIcon, PlusIcon, PaintBrushIcon } from '@heroicons/react/24/outline';
 
 interface LogoDisplayProps {
   logos: GeneratedLogo[];
@@ -84,119 +84,93 @@ const LogoDisplay: React.FC<LogoDisplayProps> = ({
                 <textarea
                   value={editablePrompt}
                   onChange={(e) => onPromptChange(e.target.value)}
-                  placeholder="在这里修改 AI 生成的提示词..."
-                  className="w-full h-40 p-3 text-xs md:text-sm border border-zen-200 rounded-lg focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none resize-none bg-zen-50 text-zen-700 font-mono leading-relaxed"
+                  className="w-full h-32 p-3 text-sm border border-zen-200 rounded-lg focus:border-gold-500 focus:ring-1 focus:ring-gold-500 outline-none resize-none font-mono bg-gray-50 text-zen-800"
                 />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-3 pt-4">
+                 <button 
+                  onClick={onRegenerate}
+                  className="flex items-center justify-center w-full py-3 border border-gold-500 text-gold-600 rounded-lg hover:bg-gold-50 transition-colors font-bold"
+                >
+                  <ArrowPathIcon className="w-5 h-5 mr-2" />
+                  基于当前提示词生成 (Regenerate)
+                </button>
+                
+                 <button 
+                  onClick={onRefine}
+                  className="flex items-center justify-center w-full py-3 bg-zen-800 text-white rounded-lg hover:bg-zen-900 transition-colors font-bold"
+                >
+                  <PaintBrushIcon className="w-5 h-5 mr-2" />
+                  基于此图 + 提示词重绘 (Refine)
+                </button>
+
+                <button 
+                  onClick={onReset}
+                  className="flex items-center justify-center w-full py-3 border border-zen-200 text-zen-500 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+                >
+                  <PlusIcon className="w-4 h-4 mr-2" />
+                  设计新方案 (Start Over)
+                </button>
               </div>
             </div>
           </div>
-
-          <div className="bg-zen-50 p-6 rounded-2xl border border-zen-100 flex justify-between items-center">
-             <div>
-                <h3 className="text-sm font-bold text-zen-800 mb-1">英文映射 (Internal Translation)</h3>
-                <p className="text-zen-600 font-mono text-xs">{analysis.englishTranslation}</p>
-             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             {/* Generate from Scratch (Text only) */}
-             <button
-               onClick={onRegenerate}
-               className="flex items-center justify-center gap-2 px-4 py-4 border border-gold-200 shadow-sm text-sm font-bold rounded-xl text-gold-700 bg-gold-50 hover:bg-gold-100 transition-colors"
-             >
-               <PlusIcon className="w-5 h-5" />
-               基于当前提示词生成
-               <span className="text-[10px] opacity-60 font-normal ml-1 hidden lg:inline">(不参考当前图)</span>
-             </button>
-
-             {/* Refine (Image + Text) */}
-             <button
-               onClick={onRefine}
-               className="flex items-center justify-center gap-2 px-4 py-4 border border-zen-600 shadow-md text-sm font-bold rounded-xl text-white bg-zen-700 hover:bg-zen-800 transition-colors"
-             >
-               <PaintBrushIcon className="w-5 h-5" />
-               基于此图 + 提示词重绘
-               <span className="text-[10px] opacity-60 font-normal ml-1 hidden lg:inline">(微调当前图)</span>
-             </button>
-          </div>
-          
-           <button
-             onClick={onReset}
-             className="w-full flex items-center justify-center gap-2 px-6 py-4 border border-zen-200 shadow-sm text-sm font-bold rounded-xl text-zen-600 bg-white hover:bg-gray-50 transition-colors"
-           >
-             <ArrowPathIcon className="w-5 h-5" />
-             重新开始 (Start Over)
-           </button>
         </div>
 
-        {/* Right Column: The Logo Display & History */}
-        <div className="sticky top-8 space-y-6">
-           {/* Main Viewer */}
-           <div className="bg-white p-4 rounded-3xl shadow-2xl border border-zen-100 relative group">
-             {/* Checkerboard pattern for transparency indication */}
-             <div 
-               className="aspect-square rounded-2xl overflow-hidden relative bg-[url('https://www.transparenttextures.com/patterns/grid-noise.png')] bg-gray-50 flex items-center justify-center"
-             >
-                <img 
-                  src={currentLogo.imageUrl} 
-                  alt="Generated Spa Logo" 
-                  className="w-full h-full object-contain"
-                />
-             </div>
-             
-             <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-               <span className="bg-black/60 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md font-medium">
-                 2K 高清矢量级
-               </span>
-             </div>
+        {/* Right Column: Logo Display & History */}
+        <div className="space-y-6">
+           {/* Main Display */}
+          <div className="bg-white p-8 rounded-2xl shadow-xl border border-zen-200 flex flex-col items-center">
+            <div className="relative w-full aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-100 group">
+              <img 
+                src={currentLogo.imageUrl} 
+                alt="Generated Logo" 
+                className="w-full h-full object-contain p-4"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none"></div>
+            </div>
+            
+            <div className="mt-8 w-full flex gap-4">
+              <button 
+                onClick={handleDownload}
+                className="flex-1 py-4 bg-gold-500 hover:bg-gold-600 text-white rounded-xl font-bold shadow-lg shadow-gold-200 transition-all transform hover:-translate-y-1 flex items-center justify-center"
+              >
+                <ArrowDownTrayIcon className="w-6 h-6 mr-2" />
+                下载高清原图 (2K PNG)
+              </button>
+            </div>
+            <p className="mt-4 text-xs text-zen-400 text-center w-full">
+              提示：生成的图片为高清位图，可直接用于社交媒体头像或打印。如需矢量文件(AI/SVG)，建议使用矢量转换工具处理。
+            </p>
+          </div>
 
-             <div className="mt-6 flex justify-center pb-2">
-                <button
-                  onClick={handleDownload}
-                  className="flex items-center gap-2 bg-gold-600 hover:bg-gold-700 text-white px-10 py-4 rounded-full font-bold shadow-lg shadow-gold-200/50 transform hover:-translate-y-1 transition-all"
-                >
-                  <ArrowDownTrayIcon className="w-5 h-5" />
-                  下载当前方案 (PNG)
-                </button>
-             </div>
-           </div>
-           
-           {/* History Thumbnails */}
-           {logos.length > 0 && (
-             <div className="bg-white p-4 rounded-2xl border border-zen-100 shadow-sm">
-                <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-xs font-bold text-zen-500 uppercase tracking-wider">方案历史 (History)</h4>
-                  <span className="text-xs text-zen-400">{logos.length} 个方案</span>
-                </div>
-                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                  {logos.map((logo, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => onSelectLogo(idx)}
-                      className={`
-                        flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all relative
-                        ${selectedIndex === idx 
-                          ? 'border-gold-500 ring-2 ring-gold-100 ring-offset-1' 
-                          : 'border-transparent hover:border-zen-300 opacity-70 hover:opacity-100'}
-                      `}
-                    >
-                      <img 
-                        src={logo.imageUrl} 
-                        alt={`Version ${idx + 1}`} 
-                        className="w-full h-full object-cover"
-                      />
-                      {selectedIndex === idx && (
-                         <div className="absolute inset-0 bg-gold-500/10" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-             </div>
-           )}
-
-           <p className="text-center text-xs text-gray-400">
-             AI 生成结果仅供灵感参考，建议配合设计师进行矢量化调整。
-           </p>
+          {/* History / Versions Strip */}
+          {logos.length > 1 && (
+            <div className="bg-white p-6 rounded-xl border border-zen-100 shadow-sm">
+              <h4 className="text-sm font-bold text-zen-600 mb-4 flex items-center">
+                <ArrowPathIcon className="w-4 h-4 mr-2" />
+                方案历史 (Versions)
+              </h4>
+              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                {logos.map((logo, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => onSelectLogo(idx)}
+                    className={`
+                      relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all
+                      ${idx === selectedIndex ? 'border-gold-500 ring-2 ring-gold-200' : 'border-gray-100 hover:border-gray-300'}
+                    `}
+                  >
+                    <img src={logo.imageUrl} alt={`Version ${idx + 1}`} className="w-full h-full object-cover" />
+                    <span className="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">
+                      V{idx + 1}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
