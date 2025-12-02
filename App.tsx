@@ -4,9 +4,6 @@ import LogoDisplay from './components/LogoDisplay';
 import { UserInput, AnalysisResult, GeneratedLogo } from './types';
 import { analyzeBrand, constructLogoPrompt, generateLogoFromPrompt } from './services/geminiService';
 
-// Fix TS2580: Cannot find name 'process' fallback
-declare const process: any;
-
 const App: React.FC = () => {
   const [step, setStep] = useState<'input' | 'analyzing' | 'generating' | 'complete'>('input');
   const [userInput, setUserInput] = useState<UserInput | null>(null);

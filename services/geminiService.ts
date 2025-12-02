@@ -1,9 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { UserInput, AnalysisResult, BrandingStyle } from "../types";
 
-// Fix TS2580: Cannot find name 'process' fallback for safer builds
-declare const process: any;
-
 // Helper to safely retrieve API Key from various environment configurations (Vite, Node, etc.)
 const getApiKey = (): string => {
   // Check for Vite environment (Standard for Vercel React apps)
