@@ -1,11 +1,31 @@
-<div align="center">
+# ZenLogo AI
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A specialized AI Logo Generator for the Spa, Foot Bath, and Wellness industry, powered by Google Gemini 3 Pro.
 
-  <h1>Built with AI Studio</h2>
+## Features
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+- **Industry Analysis**: Automatically extracts visual symbols (Lotus, Bamboo, etc.) based on service descriptions.
+- **Style Customization**: Supports New Chinese, Traditional, Luxury, Modern, Thai, and Japanese Zen styles.
+- **AI Generation**: Generates 2K resolution vector-style logos.
+- **Refinement**: Allows prompt editing and image-to-image refinement.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Development
 
-</div>
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Run local server:
+   ```bash
+   npm run dev
+   ```
+
+## Deployment on Vercel
+
+1. Push this code to a GitHub repository.
+2. Import the repository in Vercel.
+3. Add the Environment Variable:
+   - Key: `VITE_API_KEY`
+   - Value: `Your_Google_Gemini_API_Key`
+4. Deploy.

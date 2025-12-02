@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZenLogo AI - 足浴/SPA 智能 Logo 设计</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              zen: {
+                50: '#f4f7f5',
+                100: '#e3ebe6',
+                200: '#c5d9cd',
+                300: '#9bbba8',
+                400: '#729c83',
+                500: '#538066',
+                600: '#3f6550',
+                700: '#345141',
+                800: '#2b4236',
+                900: '#24372e',
+              },
+              gold: {
+                400: '#d4af37',
+                500: '#c5a028',
+                600: '#a6851f',
+              }
+            },
+            fontFamily: {
+              serif: ['"Noto Serif SC"', 'SimSun', 'Georgia', 'serif'],
+              sans: ['"PingFang SC"', '"Microsoft YaHei"', 'Helvetica', 'Arial', 'sans-serif'],
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+      body {
+        font-family: 'PingFang SC', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "@heroicons/react/": "https://aistudiocdn.com/@heroicons/react@^2.2.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
